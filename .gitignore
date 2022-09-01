@@ -1,0 +1,11 @@
+/.vscode/
+
+**/__pycache__/
+*.py[co]
+
+**/venv/
+
+backend/.env
+
+# You can put here any stuff that you don't want to push
+backend/my/

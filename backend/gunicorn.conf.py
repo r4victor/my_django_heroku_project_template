@@ -1,0 +1,5 @@
+import os
+
+workers = os.getenv('GUNICORN_WEB_WORKERS', 1)
+max_requests = os.getenv('GUNICORN_MAX_REQUESTS', 1000)
+preload_app = True
