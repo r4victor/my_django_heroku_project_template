@@ -1,6 +1,17 @@
 # my_django_heroku_project_template
 
-This repo is a blueprint for Django+DRF projects that I deploy on Heroku.
+This repo is a blueprint for building Django+DRF+Postgres+Gunicorn API services that I deploy on Heroku.
+
+## Overview
+
+The `backend` folder is the output of `django-admin startproject` with minimal additions that almost any project requires:
+
+* Basic dependencies such as `psycopg2` and `djangorestframework` included.
+* Settings splitted for local and production environments and controlled by environment variables.
+* Skeleton for views and tests.
+* Common utilities.
+
+There is also a bunch of files in the repo that help you with local development and deploying on Heroku.
 
 ## Usage
 
