@@ -1,2 +1,2 @@
 release: ./release.sh
-web: cd backend && gunicorn backend.wsgi
+web: cd nginx && bin/start-nginx eval "cd ../backend && gunicorn backend.wsgi"

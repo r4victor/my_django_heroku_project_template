@@ -1,0 +1,38 @@
+daemon off;
+# Heroku dynos have at least 4 cores.
+worker_processes <%= ENV['NGINX_WORKERS'] || 4 %>;
+
+events {
+	use epoll;
+	accept_mutex on;
+	worker_connections <%= ENV['NGINX_WORKER_CONNECTIONS'] || 1024 %>;
+}
+
+http {
+    # Don't return nginx version in the “Server” response header field
+	server_tokens off;
+
+    # Log request_id provided by Heroku's routers
+	log_format l2met 'measure#nginx.service=$request_time request_id=$http_x_request_id';
+	access_log <%= ENV['NGINX_ACCESS_LOG_PATH'] || 'logs/nginx/access.log' %> l2met;
+	error_log <%= ENV['NGINX_ERROR_LOG_PATH'] || 'logs/nginx/error.log' %>;
+
+	upstream app_server {
+		server unix:/tmp/nginx.socket fail_timeout=0;
+	}
+
+	server {
+		listen <%= ENV["PORT"] %>;
+		server_name _;
+
+		if ($http_x_forwarded_proto != "https") {
+			return 301 https://$host$request_uri;
+		}
+
+		location / {
+			proxy_set_header Host $http_host;
+			proxy_redirect off;
+			proxy_pass http://app_server;
+		}
+	}
+}

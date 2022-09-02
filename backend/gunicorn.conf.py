@@ -1,4 +1,7 @@
+import os
+
 import environ
+
 
 env = environ.Env()
 env.read_env('.env')
@@ -9,3 +12,10 @@ preload_app = True
 accesslog = None
 if env.bool('GUNICORN_ACCESS_LOG_ENABLE', default=False):
     accesslog = '-'
+
+bind = 'unix:/tmp/nginx.socket'
+
+
+def when_ready(server):
+    # This file tells nginx that gunicorn is ready
+    os.mknod('/tmp/app-initialized')
