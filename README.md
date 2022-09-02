@@ -96,3 +96,17 @@ That's it! You have a new project set up!
     ```
     git push heroku master
     ```
+
+## Miscellaneous
+
+### nginx
+
+Because of [the way Heroku does routing](https://devcenter.heroku.com/articles/http-routing#request-buffering) (routers do not buffer entire requests), serving your app with Gunicorn on Heroku is a bad idea if the app is user-facing. Slow clients can occupy all Gunicorn workers and make the app unavailable. The app becomes a subject to [the simplest DoS attack](https://en.wikipedia.org/wiki/Slowloris_(computer_security)).
+
+To mitigate this, you can put nginx in front of Gunicorn. So you will have "Heroku Router -> nginx -> Gunicorn" setup. The [nginx](https://github.com/r4victor/my_django_heroku_project_template/tree/nginx) branch  of this repo contains modifications that add nginx.
+
+Warning! I wasn't able to make [Heroku nginx buildpack](https://github.com/heroku/heroku-buildpack-nginx) work on the latest Heroku stack 22. It works on stack 20, so do
+
+```
+heroku stack:set heroku-20
+```
