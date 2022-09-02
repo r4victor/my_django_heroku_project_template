@@ -123,4 +123,36 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'default': {
+            'format': '[{levelname} {asctime}] {message}',
+            'style': '{',
+            'datefmt' : '%d/%b/%Y %H:%M:%S',
+        }
+    },
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'default',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': env.str('ROOT_LOG_LEVEL', 'ERROR'),
+    },
+    'loggers': {
+        'django': {
+            'level': env.str('DJANGO_LOG_LEVEL', 'ERROR'),
+        },
+        'backend': {
+            'level': 'INFO',
+        },
+    },
+}
+
+
 API_KEYS = env.list('API_KEYS', default=[])
