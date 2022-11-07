@@ -1,6 +1,6 @@
 # my_django_heroku_project_template
 
-This repo is a blueprint for building Django+DRF+Postgres+Gunicorn API services that I deploy on Heroku.
+This repo is a blueprint for Django + DRF + Postgres + Gunicorn API services to be deployed on Heroku.
 
 ## Overview
 
